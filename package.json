@@ -1,0 +1,19 @@
+{
+  "name": "amf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "AmfBuilder.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bloem": "^0.2.4",
+    "lodash": "^4.17.20",
+    "murmurhash": "^2.0.0",
+    "rdf-parse": "^1.7.0",
+    "request": "^2.88.2"
+  }
+}
