@@ -1,4 +1,5 @@
 /filters
+/filters_test
 /node_modules
 /package-lock.json
 /sources

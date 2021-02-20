@@ -104,8 +104,8 @@ AmfBuilder.prototype.build = function (datasource, filename, callback) {
         if (error)
           callback(error);
         else {
+          callback(null, filter, true);
           // Save filter to cache
-          callback(null, filter);
           cache.put(key, filter);
         }
       });
