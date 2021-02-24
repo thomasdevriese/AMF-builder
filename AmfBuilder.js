@@ -23,21 +23,21 @@ function AmfBuilder(options) {
   if (!fs.existsSync(folder))
     fs.mkdirSync(folder);
   this._cache = amf.cache ? {
-    get: function (key, callback) {
-      let subfolder = key.substr(0, key.indexOf('.')),
+    get: function (key, filename, callback) {
+      let subfolder = filename,
           triple = ['subject', 'predicate', 'object'],
           cacheEmpty = false,
           i = 0;
       while(i <= 2 && !cacheEmpty) {
         try {
           data = fs.readFileSync(path.join(folder, subfolder, key + '.' + triple[i] + '.' + type + '.json'));
-          process.stdout.write(`Filter ${key}.${triple[i]} retieved from cache\n`);
+          // process.stdout.write(`Filter ${key}.${triple[i]} retieved from cache\n`);
           callback(null, JSON.parse(data));
           i++;
         } catch(err) {
           if (err && err.code === 'ENOENT') {
             cacheEmpty = true; // file has not been found, cache entry is empty
-            process.stdout.write(`Filter ${key}.${triple[i]} not in cache.\nGenerating AMF...\n`);
+            // process.stdout.write(`Filter ${key}.${triple[i]} not in cache.\nGenerating AMF...\n`);
             callback(null);
           }
           else if (err) {
@@ -47,23 +47,23 @@ function AmfBuilder(options) {
         }
       }
     },
-    put: function (key, filter, callback) {
-      let subfolder = path.join(folder, key.substr(0, key.indexOf('.')));
+    put: function (key, filename, filter, callback) {
+      let subfolder = path.join(folder, filename);
       if (!fs.existsSync(subfolder))
         fs.mkdirSync(subfolder);
       let triple = ['subject', 'predicate', 'object'], i = 0;
-      triple.forEach((entity) => {
-        fs.writeFileSync(path.join(subfolder, key + '.' + entity + '.' + type + '.json'), JSON.stringify(filter[i]), callback || function (error) {
+      triple.forEach((term) => {
+        fs.writeFileSync(path.join(subfolder, key + '.' + term + '.' + type + '.json'), JSON.stringify(filter[i]), callback || function (error) {
           if(error) console.log(error);
         });
         i++;
       });
     },
   } : {
-    get: function (key, callback) {
+    get: function (key, filename, callback) {
       callback && callback(null);
     },
-    put: function (key, value, callback) {
+    put: function (key, filename, value, callback) {
       callback && callback(null);
     },
   };
@@ -76,7 +76,7 @@ AmfBuilder.prototype.build = function (datasource, filename, callback) {
       cache = this._cache,
       key = filename + '.' + this._probability.toString().replace('.', '_');
 
-  cache.get(key, function (error, filter) {
+  cache.get(key, filename, function (error, filter) {
     if (error)
       callback(error);
     else if (filter)
@@ -106,7 +106,7 @@ AmfBuilder.prototype.build = function (datasource, filename, callback) {
         else {
           callback(null, filter, true);
           // Save filter to cache
-          cache.put(key, filter);
+          cache.put(key, filename, filter);
         }
       });
     }
