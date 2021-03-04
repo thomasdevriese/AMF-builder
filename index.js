@@ -9,18 +9,18 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const scalefactor = process.argv[2] || '0.1';
+const scalefactor = process.argv[2] || '0.3';
 
 let options = {
   amf: {
     probability: process.argv[3] ? parseFloat(process.argv[3]) : 0.001, // 0,1% kans op een false positive
     type: 'BloomFilter',
-    dir: `summaries_SF_${scalefactor}_test`,
+    dir: `summaries_SF_${scalefactor}`,
     cache: true
   }
 };
 
-const file = path.join('C:\\Users\\thoma\\Documents\\Master\\Masterproef\\Implementatie\\experiments\\ldbc-snb-decentralized',`SF_${scalefactor}_filepaths_test.txt`);
+const file = path.join('C:\\Users\\thoma\\Documents\\Master\\Masterproef\\Implementatie\\experiments\\ldbc-snb-decentralized',`SF_${scalefactor}_filepaths.txt`);
 
 const readInterface = readline.createInterface({
   input: fs.createReadStream(file)
