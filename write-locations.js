@@ -1,3 +1,15 @@
+/*
+
+USAGE: node write-locations [number_of_persons]
+
+*/
+
+/*
+
+This script uses a file containing the paths of a given number of rdf files each containing a person's data, and creates a file containining these same paths + the paths of the rdf files each containing a location's information. These are the locations the persons live in.
+
+*/
+
 const fs = require('fs'),
     path = require('path'),
     RdfParser = require('rdf-parse').default,

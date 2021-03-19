@@ -1,6 +1,6 @@
 /*
 
-USAGE: node index [scalefactor] [probability]
+USAGE: node create-amfs [scalefactor] [probability]
 
 */
 

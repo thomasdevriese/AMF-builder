@@ -11,7 +11,7 @@ function BloomFilter(tripleStream, probability, callback) {
   });
   tripleStream.on('end', () => {
     let totalCount = triples.length;
-    // estimate k,m. Create bloom
+    // Estimate k & m
     var m = Math.ceil((-totalCount * Math.log(probability)) / (Math.LN2 * Math.LN2)),
         k = Math.round((m / totalCount) * Math.LN2);
     if (Number.isNaN(m))
@@ -26,8 +26,6 @@ function BloomFilter(tripleStream, probability, callback) {
       for (let variable in filters)
         filters[variable].add(Buffer.from(triple[variable]));
     });
-
-    // console.log(filters[2].has(Buffer.from('"Thomas Devriese"@en'))); // true
 
     for (let variable in filters) {
       filters[variable] = {

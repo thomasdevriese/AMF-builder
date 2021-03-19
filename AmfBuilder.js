@@ -31,13 +31,11 @@ function AmfBuilder(options) {
       while(i <= 2 && !cacheEmpty) {
         try {
           data = fs.readFileSync(path.join(folder, subfolder, key + '.' + triple[i] + '.' + type + '.json'));
-          // process.stdout.write(`Filter ${key}.${triple[i]} retieved from cache\n`);
           callback(null, JSON.parse(data));
           i++;
         } catch(err) {
           if (err && err.code === 'ENOENT') {
             cacheEmpty = true; // file has not been found, cache entry is empty
-            // process.stdout.write(`Filter ${key}.${triple[i]} not in cache.\nGenerating AMF...\n`);
             callback(null);
           }
           else if (err) {
