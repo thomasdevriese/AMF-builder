@@ -11,7 +11,7 @@ function BloomFilter(tripleStream, probability, callback) {
   });
   tripleStream.on('end', () => {
     const totalCount = triples.length;
-    // Estimate k & m
+    // Estimate k (number of hash functions) and m (number of bits in bitmap)
     let m = Math.ceil((-totalCount * Math.log(probability)) / (Math.LN2 * Math.LN2)),
         k = Math.round((m / totalCount) * Math.LN2);
     if (Number.isNaN(m))
